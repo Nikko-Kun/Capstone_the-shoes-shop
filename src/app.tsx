@@ -13,6 +13,7 @@ import { store } from "./redux/config-store";
 // App để config dự án
 export function App() {
   return (
+    // tại sao không bọc ở đây. -> Tại vì component có sử dụng hook của router nên component phải bắt buộc nằm bên trong phạm vi của router thì mới sử dụng hook của router dom được
     <ReduxProvider store={store}>
       <GlobalStyle>
         <RouterProvider router={router} />

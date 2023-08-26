@@ -5,17 +5,16 @@ import ProductFeature from "./product-feature";
 
 // useSelector: lấy store từ trên redux về
 // useDispatch: set lại state trên redux
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/redux/config-store";
+import { setListProduct } from "src/redux/slices/product.slice";
 
 function Home() {
-  const listProduct = useSelector((state: any) => {
-    // console.log(state);
+  const listProduct = useAppSelector((state) => {
     return state.productReducer.listProduct;
   });
 
   const dispatch = useDispatch();
-
-  console.log({ listProduct });
 
   // useEffect không cho sử dụng async trực tiếp.
   useEffect(() => {
@@ -37,10 +36,7 @@ function Home() {
     (async () => {
       const resp = await getAllProduct();
 
-      const action = {
-        type: "productSlice/setListProduct",
-        payload: resp.content,
-      };
+      const action = setListProduct(resp.content);
 
       dispatch(action);
     })();
