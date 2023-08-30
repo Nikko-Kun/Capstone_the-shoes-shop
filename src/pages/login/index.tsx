@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { userLogin } from "src/services/user.service";
 import { useNavigate } from "react-router-dom";
+import { setLocalStorage } from "src/utils";
+import { ACCESS_TOKEN } from "src/constants";
 
 function Login() {
   const [formLogin, setFormLogin] = useState({
@@ -17,10 +19,9 @@ function Login() {
          * 1. lưu storage
          * 2. navigate profile
          */
-        localStorage.setItem(
-          "accessToken",
-          JSON.stringify(resp.content.accessToken)
-        );
+
+        setLocalStorage(ACCESS_TOKEN, resp.content.accessToken);
+
         navigate("/profile");
       })
       .catch((err) => {

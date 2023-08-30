@@ -1,5 +1,8 @@
-import { axiosWithoutAuth } from "./config.service";
+import { getLocalStorage } from "src/utils";
+import { axiosWithAuth, axiosWithoutAuth } from "./config.service";
 import axios from "axios";
+import { ACCESS_TOKEN } from "src/constants";
+import { TParamsRegister } from "src/pages/register";
 
 export const userLogin = async (data: { email: string; password: string }) => {
   try {
@@ -16,15 +19,38 @@ export const userLogin = async (data: { email: string; password: string }) => {
 };
 
 export const getUserProfile = async () => {
-  const resp = await axios({
-    url: "https://shop.cyberlearn.vn/api/Users/getProfile",
+  // const resp = await axios({
+  //   url: "https://shop.cyberlearn.vn/api/Users/getProfile",
+  //   method: "post",
+  //   headers: {
+  //     Authorization: `Bearer ${getLocalStorage(ACCESS_TOKEN)}`,
+  //   },
+  // });
+
+  const resp = await axiosWithAuth({
+    url: "/Users/getProfile",
     method: "post",
-    headers: {
-      Authorization: `Bearer ${JSON.parse(
-        localStorage.getItem("accessToken") ?? ""
-      )}`,
-    },
   });
 
   return resp.data;
+};
+
+const getOrder = async () => {
+  const resp = await axiosWithAuth({
+    url: "/Users/getOrder",
+    method: "post",
+  });
+};
+
+export const signup = async (data: TParamsRegister) => {
+  try {
+    const resp = await axiosWithoutAuth({
+      method: "post",
+      url: "/Users/signup",
+      data,
+    });
+    return resp.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
