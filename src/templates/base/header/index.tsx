@@ -2,18 +2,17 @@ import React from "react";
 import css from "./header.module.scss";
 
 /** cách 1: */
-import searchSvg from "src/assets/imgs/search.svg";
+import searchSvg from "src/assets/images/search.svg";
 
 // import IconSearch from "src/assets/icons/search.icon";
 // import IconCart from "src/assets/icons/cart.icon";
 
 import { IconCart, IconSearch } from "src/assets/icons";
 
-import imgLogo from "src/assets/imgs/logo.png";
+import imgLogo from "src/assets/images/logo.png";
 import { Link } from "react-router-dom";
 
 function Header() {
-  console.log({ css });
   return (
     <>
       <header className={css.header}>
@@ -36,7 +35,8 @@ function Header() {
           </div>
         </div>
       </header>
-      <nav>
+      <section className={css['menu-header']}>
+      <nav className={css["type_bar"]}> 
         <ul className={css["nav"]}>
           <li>
             <Link className={css["active"]} to={"/"}>
@@ -57,6 +57,7 @@ function Header() {
           </li>
         </ul>
       </nav>
+      </section>
     </>
   );
 }

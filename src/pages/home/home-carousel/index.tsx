@@ -1,6 +1,13 @@
 import React, { useRef } from "react";
+import { TCard } from "../../../components/card";
 import { Carousel } from "antd";
 import { CarouselRef } from "antd/es/carousel";
+import css from "./home-carousel.module.scss";
+import PrevIcon from "src/assets/icons/prev.icon";
+import NextIcon from "src/assets/icons/next.icon";
+type Props = {
+  data: TCard[];
+};
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -13,42 +20,106 @@ const contentStyle: React.CSSProperties = {
 
 const HomeCarousel: React.FC = () => {
   const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+    // console.log(currentSlide);
   };
 
-  /**
-   * Để truy cập được những methods của component export ra thì ta dùng useRef
-   */
-  const refCarsousel = useRef<CarouselRef>(null);
+  const refCarousel = useRef<CarouselRef>(null);
 
-  const handleNext = () => {
-    refCarsousel.current?.next();
+  const hanldeNext = () => {
+    refCarousel.current?.next();
   };
-  const handlePrev = () => {
-    refCarsousel.current?.prev();
+  const hanldePrev = () => {
+    refCarousel.current?.prev();
   };
 
   return (
-    <div>
-      <button onClick={handlePrev}>Previous</button>
-      <button onClick={handleNext}>Next</button>
-
-      {/* Đối với những props có giá trị là true thì chỉ cần truyền tên không cần truyền cụ thể giá trị true */}
-      <Carousel ref={refCarsousel} dotPosition="bottom" afterChange={onChange}>
-        <div>
-          <img style={contentStyle} src="https://i.pravatar.cc?img=1" />
+    <>
+      <button className={css["button-Prev"]} onClick={hanldePrev}>
+        <PrevIcon />
+      </button>
+      <button className={css["button-Next"]} onClick={hanldeNext}>
+        <NextIcon />
+      </button>
+      <Carousel
+        ref={refCarousel}
+        autoplay
+        afterChange={onChange}
+        className={css["carousel-main"]}
+      >
+        <div className={css["inf-home"]}>
+          <div className={css["title-carousel"]}>
+            <div>
+              <img
+                src="/src/assets/images/adidas-prophere-black-white.png"
+                className={css["img-left"]}
+              />
+            </div>
+            <div className={css["carousel-right"]}>
+              <p className={css["name-right"]}>Adidas Prophere Black White</p>
+              <p className={css["text-right"]}>
+                The adidas Primeknit upper wraps the foot with a supportive fit
+                that enhances movement.
+              </p>
+              <button className={css["carousel-button"]}>Buy</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 style={contentStyle}>2</h3>
+        <div className={css["inf-home"]}>
+          <div className={css["title-carousel"]}>
+            <div>
+              <img
+                src="/src/assets/images/adidas-prophere-customize.png"
+                className={css["img-left"]}
+              />
+            </div>
+            <div className={css["carousel-right"]}>
+              <p className={css["name-right"]}>Adidas Prophere Customize</p>
+              <p className={css["text-right"]}>
+                The adidas Primeknit upper wraps the foot with a supportive fit
+                that enhances movement.
+              </p>
+              <button className={css["carousel-button"]}>Buy</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 style={contentStyle}>3</h3>
+        <div className={css["inf-home"]}>
+          <div className={css["title-carousel"]}>
+            <div>
+              <img
+                src="/src/assets/images/adidas-prophere.png"
+                className={css["img-left"]}
+              />
+            </div>
+            <div className={css["carousel-right"]}>
+              <p className={css["name-right"]}>Adidas Prophere</p>
+              <p className={css["text-right"]}>
+                The adidas Primeknit upper wraps the foot with a supportive fit
+                that enhances movement.
+              </p>
+              <button className={css["carousel-button"]}>Buy</button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 style={contentStyle}>4</h3>
+        <div className={css["inf-home"]}>
+          <div className={css["title-carousel"]}>
+            <div>
+              <img
+                src="/src/assets/images/adidas-super-star-red.png"
+                className={css["img-left"]}
+              />
+            </div>
+            <div className={css["carousel-right"]}>
+              <p className={css["name-right"]}>Adidas Super Star Red</p>
+              <p className={css["text-right"]}>
+                The adidas Primeknit upper wraps the foot with a supportive fit
+                that enhances movement.
+              </p>
+              <button className={css["carousel-button"]}>Buy</button>
+            </div>
+          </div>
         </div>
       </Carousel>
-    </div>
+    </>
   );
 };
 
