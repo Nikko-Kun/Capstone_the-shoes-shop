@@ -50,7 +50,7 @@ const HomeCarousel: React.FC = () => {
           <div className={css["title-carousel"]}>
             <div>
               <img
-                src="/src/assets/images/adidas-prophere-black-white.png"
+                src="https://shop.cyberlearn.vn/images/adidas-prophere-black-white.png"
                 className={css["img-left"]}
               />
             </div>
@@ -68,7 +68,7 @@ const HomeCarousel: React.FC = () => {
           <div className={css["title-carousel"]}>
             <div>
               <img
-                src="/src/assets/images/adidas-prophere-customize.png"
+                src="https://shop.cyberlearn.vn/images/adidas-prophere-customize.png"
                 className={css["img-left"]}
               />
             </div>
@@ -86,7 +86,7 @@ const HomeCarousel: React.FC = () => {
           <div className={css["title-carousel"]}>
             <div>
               <img
-                src="/src/assets/images/adidas-prophere.png"
+                src="https://shop.cyberlearn.vn/images/adidas-prophere.png"
                 className={css["img-left"]}
               />
             </div>
@@ -104,7 +104,7 @@ const HomeCarousel: React.FC = () => {
           <div className={css["title-carousel"]}>
             <div>
               <img
-                src="/src/assets/images/adidas-super-star-red.png"
+                src="https://shop.cyberlearn.vn/images/adidas-super-star-red.png"
                 className={css["img-left"]}
               />
             </div>
