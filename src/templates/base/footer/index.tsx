@@ -21,8 +21,8 @@ function Footer () {
                     <div className={css['footer-contact']}>
                         <NavLink to=''>About</NavLink>  
                         <NavLink to=''>Contact</NavLink>
-                        <NavLink to=''>HelNavLink</NavLink>
-                        <NavLink to=''>NavLinkhone</NavLink>
+                        <NavLink to=''>Help</NavLink>
+                        <NavLink to=''>Phone</NavLink>
                     </div>
                 </div>
                 </div>

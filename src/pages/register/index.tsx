@@ -78,9 +78,9 @@ export default function Register() {
             error={formik.errors.name}
           />
           <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Name}
+            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Password}
             type={FIELD_PROPS_NAME.password}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Name}
+            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Password}
             showEye={true}
             getFieldProps={formik.getFieldProps(FIELD_PROPS_NAME.password)}
             touched={formik.touched.password}
