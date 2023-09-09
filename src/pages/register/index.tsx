@@ -1,121 +1,246 @@
-import ShoesInput from "src/components/shoes-input";
+import React, { useState } from "react";
 import css from "./register.module.scss";
-import ShoesInputRadioGender from "src/components/shoes-input-radio";
-import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Y from "yup";
 import { signup } from "src/services/user.service";
-import {
-  FIELD_PROPS_NAME,
-  FIELD_PROPS_NAME_UPPER_FIRST_CHAR,
-  MESSAGE,
-  NAVIGATE_URL,
-  VALIDATION_MESSAGE,
-} from "src/constants";
-const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+export type TParamsRegister = {
+  email: string;
+  password: string;
+  name: string;
+  gender: boolean;
+  phone: string;
+};
 const registerSchema = Y.object({
-  email: Y.string()
-    .email(VALIDATION_MESSAGE.emailFormat)
-    .required(VALIDATION_MESSAGE.emailRequire),
-  name: Y.string().required(VALIDATION_MESSAGE.nameRequire),
+  email: Y.string().email().required("Bạn chưa nhập Email"),
+  name: Y.string()
+    .min(5, "Name phải nhiều hơn 5 ký tự")
+    .max(20, "Name phải ít hơn 20 ký tự")
+    .required("Bạn chưa nhập vào Name"),
   password: Y.string()
-    .min(5, VALIDATION_MESSAGE.passwordMinLength)
-    .max(20, VALIDATION_MESSAGE.passwordMaxLength)
-    .required(VALIDATION_MESSAGE.passwordRequire),
+    .min(5, "Password phải nhiều hơn 5 ký tự")
+    .max(20, "Password phải ít hơn 20 ký tự")
+    .required("Bạn chưa nhập vào Password"),
   confirmPassword: Y.string()
-    .oneOf(
-      [Y.ref(FIELD_PROPS_NAME.password)],
-      VALIDATION_MESSAGE.passwordConfirmMatch,
-    )
-    .required(VALIDATION_MESSAGE.passwordConfirmRequire),
+    .oneOf([Y.ref("password")], "Phải đúng với Password")
+    .required("Bạn chưa nhập vào Password cofirm"),
   phone: Y.string()
-    .matches(phoneRegExp, VALIDATION_MESSAGE.phoneFormat)
-    .required(VALIDATION_MESSAGE.phoneRequire),
+    .min(10, "Phone không dưới 10 số")
+    .max(11, "Phone không quá 11 số")
+    .required("Bạn chưa nhập Phone"),
 });
-export default function Register() {
+function Register() {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
-      name: "",
       password: "",
       confirmPassword: "",
+      name: "",
       phone: "",
-      gender: true,
     },
     validationSchema: registerSchema,
     onSubmit: (value) => {
-      signup(value)
-        .then((resp) => {
-          if (resp.message === MESSAGE.dangKyTaiKhoanThanhCong) {
-            alert(resp.message);
-            navigate(NAVIGATE_URL.login);
-          }
+      const data: TParamsRegister = {
+        email: value.email,
+        gender: true,
+        phone: value.phone,
+        password: value.password,
+        name: value.name,
+      };
+      signup(data)
+        .then(() => {
+          navigate("/login");
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          alert("Error");
+          console.log(error)
+        });
+      console.log({ value });
     },
   });
+
+  const [passwordType, setPasswordType] = useState("password");
+  const hanldeChangeType = () => {
+    setPasswordType((prevType) => (prevType === "text" ? "password" : "text"));
+  };
+  const [passwordConfirmType, setPasswordConfirmType] = useState("password");
+  const hanldeChangeType1 = () => {
+    setPasswordConfirmType((prevType) =>
+      prevType === "text" ? "password" : "text",
+    );
+  };
   return (
-    <>
-      <div className={css["wrap"]}>
-        <h1 className={css["title"]}>Register</h1>
-        <div className={css["line"]} />
-        <form className={css["form"]} onSubmit={formik.handleSubmit}>
-          <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Email}
-            type={FIELD_PROPS_NAME.text}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Email}
-            getFieldProps={formik.getFieldProps(FIELD_PROPS_NAME.email)}
-            touched={formik.touched.email}
-            error={formik.errors.email}
-          />
-          <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Name}
-            type={FIELD_PROPS_NAME.text}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Name}
-            getFieldProps={formik.getFieldProps(FIELD_PROPS_NAME.name)}
-            touched={formik.touched.name}
-            error={formik.errors.name}
-          />
-          <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Password}
-            type={FIELD_PROPS_NAME.password}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Password}
-            showEye={true}
-            getFieldProps={formik.getFieldProps(FIELD_PROPS_NAME.password)}
-            touched={formik.touched.password}
-            error={formik.errors.password}
-          />
-          <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Phone}
-            type={FIELD_PROPS_NAME.text}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.Phone}
-            getFieldProps={formik.getFieldProps(FIELD_PROPS_NAME.phone)}
-            touched={formik.touched.phone}
-            error={formik.errors.phone}
-          />
-          <ShoesInput
-            title={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.passwordConfirmSpace}
-            type={FIELD_PROPS_NAME.password}
-            placeholder={FIELD_PROPS_NAME_UPPER_FIRST_CHAR.passwordConfirmSpace}
-            showEye={true}
-            getFieldProps={formik.getFieldProps(
-              FIELD_PROPS_NAME.passwordConfirm,
-            )}
-            touched={formik.touched.confirmPassword}
-            error={formik.errors.confirmPassword}
-          />
-          <ShoesInputRadioGender
-            value={formik.values.gender}
-            setFieldValue={formik.setFieldValue}
-          />
-          <div className={css["form_action"]}>
-            <button type="submit" className={css["login"]}>
-              Submit
-            </button>
+    <div className={css["register-main"]}>
+      <div className={css["register-title"]}>Register</div>
+      <hr className={css["register-hr"]} />
+      <form onSubmit={formik.handleSubmit}>
+        <div className={css["register-form"]}>
+          <div className={css["register-left"]}>
+            <div>
+              <label htmlFor="Email" className={css["register-name"]}>
+                Email
+              </label>
+              <br />
+              <input
+                // type="email"
+                placeholder="email"
+                className={css["register-input"]}
+                {...formik.getFieldProps("email")}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <p className={css["register-p"]}>{formik.errors.email}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="Password" className={css["register-name"]}>
+                Password
+              </label>
+              <br />
+              <input
+              
+                // id="password"
+                type={passwordType}
+                placeholder="password"
+                className={css["register-input"]}
+                {...formik.getFieldProps("password")}
+              />
+              {passwordType === "text" ? (
+                <i
+                  className="fa-regular fa-eye-slash "
+                  onClick={hanldeChangeType}
+                  style={{
+                    position:"relative",
+                    left:"417px",
+                    bottom:"39px",
+                    cursor:"pointer"
+                  }}
+                />
+              ) : (
+                <i className="fa-regular fa-eye" onClick={hanldeChangeType} style={{
+                  position:"relative",
+                  left:"417px",
+                  bottom:"39px",
+                  cursor:"pointer"
+                }} />
+              )}
+
+              {formik.touched.password && formik.errors.password && (
+                <p className={css["register-p"]}  style={{position:"relative",
+                bottom:"25px"}}>{formik.errors.password}</p>
+              )}
+            </div>
+            <div className={css["register-cofirm"]}>
+              <label
+                htmlFor="Password confirm"
+                className={css["register-name"]}
+              >
+                Password confirm
+              </label>
+              <br />
+              <input
+                type={passwordConfirmType}
+                placeholder="password confirm"
+                className={css["register-input"]}
+                {...formik.getFieldProps("confirmPassword")}
+              />
+              {passwordConfirmType === "text" ? (
+                <i
+                  className="fa-regular fa-eye-slash "
+                  onClick={hanldeChangeType1}
+                  style={{
+                    position:"relative",
+                    left:"412px",
+                    bottom:"39px",
+                    cursor:"pointer"
+                  }}
+                />
+              ) : (
+                <i className="fa-regular fa-eye" onClick={hanldeChangeType1} style={{
+                  position:"relative",
+                  left:"412px",
+                  bottom:"39px",
+                  cursor:"pointer"
+                }}/>
+              )}
+
+              {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword && (
+                  <p className={css["register-p"]} style={{position:"relative",
+                  bottom:"25px"}}>
+                    {formik.errors.confirmPassword} 
+                  </p>
+                )}
+            </div>
           </div>
-        </form>
-      </div>
-    </>
+          <div className={css["register-right"]}>
+            <div>
+              <label htmlFor="Name" className={css["register-name"]}>
+                Name
+              </label>
+              <br />
+              <input
+                type="text"
+                placeholder="name"
+                className={css["register-input"]}
+                {...formik.getFieldProps("name")}
+              />
+              {formik.touched.name && formik.errors.name && (
+                <p className={css["register-p"]}>{formik.errors.name}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="Phone" className={css["register-name"]}>
+                Phone
+              </label>
+              <br />
+              <input
+                // type="number"
+                placeholder="phone"
+                className={css["register-input"]}
+                {...formik.getFieldProps("phone")}
+              />
+              {formik.touched.phone && formik.errors.phone && (
+                <p className={css["register-p"]}>{formik.errors.phone}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="Gender" className={css["register-name"]}>
+                Gender
+              </label>
+              <ul className={css["register-ul"]}>
+                <li className={css["register-male"]}>
+                  <input
+                    type="radio"
+                    // name="selector"
+                    // id="male"
+                    className={css["register-selector"]}
+                    {...formik.getFieldProps("gender")}
+                  />
+                  <label htmlFor="male">Male</label>
+                </li>
+                <li className={css["register-femail"]}>
+                  <input
+                    type="radio"
+                    // name="selector"
+                    // id="femail"
+                    className={css["register-selector"]}
+                    {...formik.getFieldProps("gender")}
+                  />
+                  <label htmlFor="femail">Femail</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className={css["register-dk"]}>
+          <button type="submit" className={css["register-button"]}>
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
+
+export default Register;

@@ -1,73 +1,58 @@
 .header {
   height: 5rem;
   background-color: #000000;
-  color: white;
-
   display: flex;
   align-items: center;
+  color: #fff;
   justify-content: space-between;
-
   padding: 0 2.5rem;
 }
+
 .header-left {
   display: flex;
   align-items: center;
-
   gap: 1rem;
 }
-.header-left-search {
-  display: flex;
-  align-items: center;
-}
 
+.header-left-search,
 .header-left-cart {
   display: flex;
   align-items: center;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
 }
 
 .header-left-author {
   gap: 1rem;
 
   a {
-    color: white;
     text-decoration: none;
-    margin: 0 0.4rem;
+    color: #fff;
+    margin-right: 10px;
   }
 }
 
-.menu-header {
-  min-height: 50px;
+.nav {
   display: flex;
   align-items: center;
-  background-color: #fff;
-}
-.type_bar{
-  padding: 0 2.4rem;
-  height: 5rem;
-  ul{
-      display: flex;
-      height: 100%;
-      align-items: center;
-      list-style: none;
-      padding: 0;
-      li{
-          font-size: 2rem;
-          font-weight: 300;
-          line-height: 2.4rem;
-          a{
-              color: #000000;
-              text-decoration: none;
-              opacity: 0.7;
-              padding: 1rem 0;
-          };
-          .active{
-              font-weight: 400;
-              opacity: 1;
-              border-bottom: 1px solid #000000
-          }
-      };
-      li + li{
-          margin-left: 3rem;
-      }
+  gap: 2rem;
+  padding: 1.6rem 2.5rem;
+  text-align: center;
+
+  a {
+    color: #000;
+    text-decoration: none;
+    font-weight: 300;
+
   }
+
+  .active {
+    font-weight: 400;
+    opacity: 1;
+    border-bottom: 1px solid #000000
+  }
+
 }

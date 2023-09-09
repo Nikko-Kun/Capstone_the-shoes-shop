@@ -5,7 +5,7 @@ import { Suspense, lazy } from "react";
 import HomeSkeleton from "src/pages/home/home.skeleton";
 
 const Home = lazy(() => import("../pages/home"));
-const Carts = lazy(() => import("../pages/carts"));
+const Cart = lazy(() => import("../pages/cart"));
 const Login = lazy(() => import("../pages/login"));
 const Profile = lazy(() => import("../pages/profile"));
 const Register = lazy(() => import("../pages/register"));
@@ -26,8 +26,8 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "carts",
-        element: <Carts />,
+        path: "cart",
+        element: <Cart />,
       },
       {
         path: "login",
