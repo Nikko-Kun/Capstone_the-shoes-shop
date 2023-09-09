@@ -4,3 +4,4 @@ Group 1:
 
 Deploy: https://capstone-the-shoes-shop.vercel.app/
 
+npm install react-facebook-login --legacy-peer-deps

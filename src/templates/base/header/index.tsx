@@ -55,12 +55,10 @@ function Header() {
           </div>
           <div className={css["header-left-author"]}>
             {isLoggedIn ? (
-              <>
               <div>
                 <Link to="/profile">Profile</Link>
                 <a onClick={handleLogout}>Logout</a>
-                </div>
-              </>
+                </div>          
             ) : (
               <>
                 <Link to="/login">Login</Link>

@@ -62,3 +62,17 @@ export const updatePassword = async (data: string) => {
         console.log(err)
     }
 }
+export const loginFacebook = async (data: string) => {
+    try {
+        const resp = await axiosWithoutAuth({
+            method: 'post',
+            url: '/Users/facebooklogin',
+            data: {
+                "facebookToken": data
+            }
+        })
+        return resp
+    } catch (error) {
+        console.log(error)
+    }
+}
