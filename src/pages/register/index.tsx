@@ -111,16 +111,14 @@ function Register() {
                   onClick={hanldeChangeType}
                   style={{
                     position:"relative",
-                    left:"417px",
-                    bottom:"39px",
+                    left:"-30px",
                     cursor:"pointer"
                   }}
                 />
               ) : (
                 <i className="fa-regular fa-eye" onClick={hanldeChangeType} style={{
                   position:"relative",
-                  left:"417px",
-                  bottom:"39px",
+                  left:"-30px",
                   cursor:"pointer"
                 }} />
               )}
@@ -150,16 +148,14 @@ function Register() {
                   onClick={hanldeChangeType1}
                   style={{
                     position:"relative",
-                    left:"412px",
-                    bottom:"39px",
+                    left:"-30px",
                     cursor:"pointer"
                   }}
                 />
               ) : (
                 <i className="fa-regular fa-eye" onClick={hanldeChangeType1} style={{
                   position:"relative",
-                  left:"412px",
-                  bottom:"39px",
+                  left:"-30px",
                   cursor:"pointer"
                 }}/>
               )}

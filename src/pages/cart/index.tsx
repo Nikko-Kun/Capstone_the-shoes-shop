@@ -204,7 +204,7 @@ function Cart() {
                     }}
                     onClick={handleClearCart}
                   >
-                    CLEAR CART
+                    CLEAR
                   </button>
                 )}
 
