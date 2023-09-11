@@ -178,8 +178,6 @@ function Cart() {
                 </tr>
               ))}
             </tbody>
-            
-           
             <tfoot
               className="align-middle"
               style={{
