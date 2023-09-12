@@ -25,3 +25,10 @@ export type TUser = {
   email:string
   accessToken:string
 }
+export type UserRegister = {
+  "email": string,
+  "password": string,
+  "name": string,
+  "gender": boolean,
+  "phone": string
+}
