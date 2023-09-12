@@ -19,11 +19,9 @@ export type TUserInfo = {
   username: string;
   email: string;
   sdt:string;
+  // Thêm các trường thông tin khác của người dùng nếu cần
 };
-export type UserRegister = {
-  "email": string,
-  "password": string,
-  "name": string,
-  "gender": boolean,
-  "phone": string
+export type TUser = {
+  email:string
+  accessToken:string
 }

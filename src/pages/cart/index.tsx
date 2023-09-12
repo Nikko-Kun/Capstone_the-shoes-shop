@@ -3,53 +3,70 @@ import css from "./cart.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLocalStorage, getLocalStorage } from "src/utils";
-import { clearCart, deleteItemCart } from "src/redux/slices/cart.slice";
+import { deleteItemCart,clearCart,updateItemQuantity  } from "src/redux/slices/cart.slice";
 import { ACCESS_TOKEN } from "src/constants";
 import { RootState } from "src/redux/config-store";
-import Item from "antd/es/list/Item";
+import { number } from "yup";
 type TPrams = {
   productId: string;
 };
 
 function Cart() {
-  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const params = useParams<TPrams>();
-  const cartItems = useSelector(
-    (state: RootState) => state.cartReducer.cartItems
-  );
+  const cartItems = useSelector((state: RootState) => state.cartReducer.cartItems);
+  const [quantity, setQuantity] = useState<number[]>(cartItems.map(item => item.quantity));
+  const [totalPrice, setTotalPrice] = useState<number[]>(cartItems.map(item => item.price * item.quantity));
+  const totalAmount = totalPrice.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
   const handleDelete = (productId: number) => {
     console.log("Deleting product with ID:", productId);
     dispatch(deleteItemCart(params.productId));
+    window.location.reload();
   };
-
   const handleClearCart = () => {
-    clearCart();
+    console.log("Clear card");
+    dispatch(clearCart());
+    window.location.reload();
   };
 
-  //tính tổng tiền
-  const totalPrice = cartItems.reduce(
-    (price, item) => price + item.quantity * item.price,
-    0
-  );
+  const handleIncreaseQuantity = (index: number) => {
+    // Tăng số lượng sản phẩm và cập nhật giá tiền
+    const updatedQuantity = [...quantity];
+    const updatedTotalPrice = [...totalPrice];
+
+    updatedQuantity[index]++;
+    updatedTotalPrice[index] = cartItems[index].price * updatedQuantity[index];
+
+    setQuantity(updatedQuantity);
+    setTotalPrice(updatedTotalPrice);
+
+    // Dispatch action để cập nhật số lượng sản phẩm trong Redux
+    dispatch(updateItemQuantity({ productId: cartItems[index].id, quantity: updatedQuantity[index] }));
+  };
+  const handleDecreaseQuantity = (index: number) => {
+    // Giảm số lượng sản phẩm và cập nhật giá tiền
+    if (quantity[index] > 1) {
+      const updatedQuantity = [...quantity];
+      const updatedTotalPrice = [...totalPrice];
+
+      updatedQuantity[index]--;
+      updatedTotalPrice[index] = cartItems[index].price * updatedQuantity[index];
+
+      setQuantity(updatedQuantity);
+      setTotalPrice(updatedTotalPrice);
+
+      // Dispatch action để cập nhật số lượng sản phẩm trong Redux
+      dispatch(updateItemQuantity({ productId: cartItems[index].id, quantity: updatedQuantity[index] }));
+    }
+  };
+
 
   // Cập nhật Local Storage mỗi khi giỏ hàng thay đổi
   useEffect(() => {
     setLocalStorage("cart", cartItems);
   }, [cartItems]);
 
-  const handleIncreaseQuantity = () => {
-    // Hàm tăng số lượng
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecreaseQuantity = () => {
-    // Hàm giảm số lượng (đảm bảo số lượng không nhỏ hơn 1)
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
 
   return (
     <>
@@ -125,8 +142,8 @@ function Cart() {
                         fontSize: "14px",
                         cursor: "pointer",
                       }}
-                      onClick={handleIncreaseQuantity}
-                    >
+                      onClick={() => handleIncreaseQuantity(index)}
+                      >
                       +
                     </button>
                     <span
@@ -151,12 +168,12 @@ function Cart() {
                         fontSize: "14px",
                         cursor: "pointer",
                       }}
-                      onClick={() => handleDelete(item.id)}
-                    >
+                      onClick={() => handleDecreaseQuantity(index)}
+                      >
                       -
                     </button>
                   </td>
-                  <td>{item.price * item.quantity}$</td>
+                  <td>{totalPrice[index]}$</td>
                   <td>
                     <button
                       className="btn ms-3"
@@ -200,8 +217,8 @@ function Cart() {
                       height: "41px",
                       boxShadow: "0px 5px 5px 0px #00000033",
                     }}
-                    onClick={handleClearCart}
-                  >
+                    onClick={() => handleClearCart()}
+                    >
                     CLEAR
                   </button>
                 )}
@@ -235,7 +252,7 @@ function Cart() {
             >
               <td colSpan={6}>Total</td>
 
-              <td >{totalPrice}$</td>
+              <td >{totalAmount}$</td>
               
             </tfoot>
           </table>

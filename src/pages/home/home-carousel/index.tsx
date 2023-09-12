@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { TCard } from "../../../components/card";
 import { Carousel } from "antd";
 import { CarouselRef } from "antd/es/carousel";
+import { Link } from "react-router-dom";
 import css from "./home-carousel.module.scss";
 import PrevIcon from "src/assets/icons/prev.icon";
 import NextIcon from "src/assets/icons/next.icon";
@@ -60,7 +61,7 @@ const HomeCarousel: React.FC = () => {
                 The adidas Primeknit upper wraps the foot with a supportive fit
                 that enhances movement.
               </p>
-              <button className={css["carousel-button"]} >Buy</button>
+              <Link className={css["carousel-button"]} to="/detail/2">Buy</Link>
             </div>
           </div>
         </div>
@@ -78,7 +79,7 @@ const HomeCarousel: React.FC = () => {
                 The adidas Primeknit upper wraps the foot with a supportive fit
                 that enhances movement.
               </p>
-              <button className={css["carousel-button"]}>Buy</button>
+              <Link className={css["carousel-button"]} to="/detail/3">Buy</Link>
             </div>
           </div>
         </div>
@@ -96,7 +97,7 @@ const HomeCarousel: React.FC = () => {
                 The adidas Primeknit upper wraps the foot with a supportive fit
                 that enhances movement.
               </p>
-              <button className={css["carousel-button"]}>Buy</button>
+              <Link className={css["carousel-button"]} to="/detail/1">Buy</Link>
             </div>
           </div>
         </div>
@@ -114,7 +115,7 @@ const HomeCarousel: React.FC = () => {
                 The adidas Primeknit upper wraps the foot with a supportive fit
                 that enhances movement.
               </p>
-              <button className={css["carousel-button"]}>Buy</button>
+              <Link className={css["carousel-button"]} to="/detail/4">Buy</Link>
             </div>
           </div>
         </div>
