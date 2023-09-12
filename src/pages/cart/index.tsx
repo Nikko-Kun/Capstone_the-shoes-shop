@@ -3,32 +3,53 @@ import css from "./cart.module.scss";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setLocalStorage, getLocalStorage } from "src/utils";
-import { deleteItemCart } from "src/redux/slices/cart.slice";
+import { clearCart, deleteItemCart } from "src/redux/slices/cart.slice";
 import { ACCESS_TOKEN } from "src/constants";
 import { RootState } from "src/redux/config-store";
+import Item from "antd/es/list/Item";
 type TPrams = {
   productId: string;
 };
 
 function Cart() {
+  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const params = useParams<TPrams>();
-  const cartItems = useSelector((state: RootState) => state.cartReducer.cartItems);
+  const cartItems = useSelector(
+    (state: RootState) => state.cartReducer.cartItems
+  );
 
-
-  const handleDelete = (productId:number) => {
+  const handleDelete = (productId: number) => {
     console.log("Deleting product with ID:", productId);
     dispatch(deleteItemCart(params.productId));
   };
-  
 
+  const handleClearCart = () => {
+    clearCart();
+  };
 
-
+  //tính tổng tiền
+  const totalPrice = cartItems.reduce(
+    (price, item) => price + item.quantity * item.price,
+    0
+  );
 
   // Cập nhật Local Storage mỗi khi giỏ hàng thay đổi
   useEffect(() => {
     setLocalStorage("cart", cartItems);
   }, [cartItems]);
+
+  const handleIncreaseQuantity = () => {
+    // Hàm tăng số lượng
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecreaseQuantity = () => {
+    // Hàm giảm số lượng (đảm bảo số lượng không nhỏ hơn 1)
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
 
   return (
     <>
@@ -83,7 +104,11 @@ function Cart() {
                   </th>
                   <td>{index + 1}</td>
                   <td>
-                    <img src={item.image} style={{ width: "100px", height: "100px" }} alt={item.name} />
+                    <img
+                      src={item.image}
+                      style={{ width: "100px", height: "100px" }}
+                      alt={item.name}
+                    />
                   </td>
                   <td>{item.name}</td>
                   <td>{item.price}$</td>
@@ -100,14 +125,15 @@ function Cart() {
                         fontSize: "14px",
                         cursor: "pointer",
                       }}
+                      onClick={handleIncreaseQuantity}
                     >
                       +
                     </button>
                     <span
-                      className="px-5"
+                      className="px-4"
                       style={{
                         backgroundColor: "#D9D9D9",
-                        width: "80px",
+
                         fontSize: "20px",
                       }}
                     >
@@ -125,6 +151,7 @@ function Cart() {
                         fontSize: "14px",
                         cursor: "pointer",
                       }}
+                      onClick={() => handleDelete(item.id)}
                     >
                       -
                     </button>
@@ -158,10 +185,29 @@ function Cart() {
                 height: "31px",
               }}
             >
+             
               <td colSpan={7}></td>
               <td>
+                {cartItems.length >= 1 && (
+                  <button
+                    className="btn m-3"
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      backgroundColor: "#EB5757",
+                      color: "#FFFFFF",
+                      width: "152px",
+                      height: "41px",
+                      boxShadow: "0px 5px 5px 0px #00000033",
+                    }}
+                    onClick={handleClearCart}
+                  >
+                    CLEAR
+                  </button>
+                )}
+
                 <button
-                  className="btn"
+                  className="btn m-3"
                   style={{
                     fontSize: "14px",
                     fontWeight: "500",
@@ -175,6 +221,22 @@ function Cart() {
                   SUBMIT ORDER
                 </button>
               </td>
+            </tfoot>
+             <tfoot
+              className="align-middle"
+              style={{
+                textAlign: "center",
+                // height: "31px",
+                fontSize: "30px",
+                fontWeight: "500",
+                color: "#000000",
+                margin: "30px",
+              }}
+            >
+              <td colSpan={6}>Total</td>
+
+              <td >{totalPrice}$</td>
+              
             </tfoot>
           </table>
         </div>
