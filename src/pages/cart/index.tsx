@@ -22,12 +22,6 @@ function Cart() {
   const handleDelete = (productId: number) => {
     console.log("Deleting product with ID:", productId);
     dispatch(deleteItemCart(params.productId));
-    window.location.reload();
-  };
-  const handleClearCart = () => {
-    console.log("Clear card");
-    dispatch(clearCart());
-    window.location.reload();
   };
 
   const handleIncreaseQuantity = (index: number) => {
@@ -205,24 +199,6 @@ function Cart() {
              
               <td colSpan={7}></td>
               <td>
-                {cartItems.length >= 1 && (
-                  <button
-                    className="btn m-3"
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      backgroundColor: "#EB5757",
-                      color: "#FFFFFF",
-                      width: "152px",
-                      height: "41px",
-                      boxShadow: "0px 5px 5px 0px #00000033",
-                    }}
-                    onClick={() => handleClearCart()}
-                    >
-                    CLEAR
-                  </button>
-                )}
-
                 <button
                   className="btn m-3"
                   style={{
