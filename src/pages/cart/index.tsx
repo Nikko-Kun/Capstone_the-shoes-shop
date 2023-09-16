@@ -24,34 +24,34 @@ function Cart() {
     dispatch(deleteItemCart(params.productId));
   };
 
-  const handleIncreaseQuantity = (index: number) => {
+  const handleIncreaseQuantity = (item: number) => {
     // Tăng số lượng sản phẩm và cập nhật giá tiền
     const updatedQuantity = [...quantity];
     const updatedTotalPrice = [...totalPrice];
 
-    updatedQuantity[index]++;
-    updatedTotalPrice[index] = cartItems[index].price * updatedQuantity[index];
+    updatedQuantity[item]++;
+    updatedTotalPrice[item] = cartItems[item].price * updatedQuantity[item];
 
     setQuantity(updatedQuantity);
     setTotalPrice(updatedTotalPrice);
 
     // Dispatch action để cập nhật số lượng sản phẩm trong Redux
-    dispatch(updateItemQuantity({ productId: cartItems[index].id, quantity: updatedQuantity[index] }));
+    dispatch(updateItemQuantity({ productId: cartItems[item].id, quantity: updatedQuantity[item] }));
   };
-  const handleDecreaseQuantity = (index: number) => {
+  const handleDecreaseQuantity = (item: number) => {
     // Giảm số lượng sản phẩm và cập nhật giá tiền
-    if (quantity[index] > 1) {
+    if (quantity[item] > 1) {
       const updatedQuantity = [...quantity];
       const updatedTotalPrice = [...totalPrice];
 
-      updatedQuantity[index]--;
-      updatedTotalPrice[index] = cartItems[index].price * updatedQuantity[index];
+      updatedQuantity[item]--;
+      updatedTotalPrice[item] = cartItems[item].price * updatedQuantity[item];
 
       setQuantity(updatedQuantity);
       setTotalPrice(updatedTotalPrice);
 
       // Dispatch action để cập nhật số lượng sản phẩm trong Redux
-      dispatch(updateItemQuantity({ productId: cartItems[index].id, quantity: updatedQuantity[index] }));
+      dispatch(updateItemQuantity({ productId: cartItems[item].id, quantity: updatedQuantity[item] }));
     }
   };
 
@@ -215,22 +215,7 @@ function Cart() {
                 </button>
               </td>
             </tfoot>
-             <tfoot
-              className="align-middle"
-              style={{
-                textAlign: "center",
-                // height: "31px",
-                fontSize: "30px",
-                fontWeight: "500",
-                color: "#000000",
-                margin: "30px",
-              }}
-            >
-              <td colSpan={6}>Total</td>
 
-              <td >{totalAmount}$</td>
-              
-            </tfoot>
           </table>
         </div>
       </div>

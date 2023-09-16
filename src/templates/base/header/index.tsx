@@ -43,15 +43,14 @@ function Header() {
           <img src={imLogo} alt="" />
         </Link>
         <div className={css["header-left"]}>
-          <div className={css["header-left-search"]}>
-            <IconSearch />
-            <Link to="/search">Search</Link>
+          <div className={css["header-left-search"]}>      
+            <Link to="/search"><IconSearch /><span>Search</span></Link>
           </div>
           <div className={css["header-left-cart"]}>
             <Link to="/cart">
-              <IconCart />
+              <IconCart /><span>({cartItemCount})</span>
             </Link>
-            <span>({cartItemCount})</span>
+            
           </div>
           <div className={css["header-left-author"]}>
             {isLoggedIn ? (
