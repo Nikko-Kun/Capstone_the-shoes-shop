@@ -1,7 +1,6 @@
 import { UserRegister } from "src/types";
 import { axiosWithAuth, axiosWithoutAuth } from "./config.service"
 import { TUserProfileUpdate } from "src/pages/profile";
-import { Orders } from "src/pages/carts";
 export const userLogin = async (data: { email: string; password: string }) => {
     try {
         const resp = await axiosWithoutAuth({
@@ -77,16 +76,3 @@ export const loginFacebook = async (data: string) => {
         console.log(error)
     }
 }
-export const sendOrders = async (data: Orders) => {
-    try {
-      const resp = await axiosWithoutAuth({
-        url: "/Users/order",
-        method: "post",
-        data,
-      });
-      alert("Order thành công");
-      console.log(resp);
-    } catch (err) {
-      console.log(err);
-    }
-  };
